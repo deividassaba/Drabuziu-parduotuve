@@ -5,31 +5,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication2.Models
 {
-    [Table("produktai")] // Table name explicitly defined
+    [Table("produktas")] // Table name explicitly defined
     public class Product
     {
-        public string table { get; set; }
+        [Column("id")]
         public int id { get; set; }
-
+        [Column("pavadinimas")]
         public string name { get; set; }
-
+        [Column("aprasas")]
         [StringLength(500)]
         public string description { get; set; }
-
+        [Column("kaina")]
         [Required]
         [Range(0, 10000)]
-        public decimal price { get; set; }
+        public double price { get; set; }
 
-        // Stock Quantity
+
+        [Column("mase")]
+        [Range(0, int.MaxValue)]
+        public double mass { get; set; }
+        [Column("kiekis")]
         [Required]
         [Range(0, int.MaxValue)]
         public int amount{ get; set; }
 
+        [Column("gamintojas")]
+        public string manufacturer { get; set; }
+        [Column("nuotraukos_url")]
         public string imageURL{ get; set; }
 
 
-        // Created Date (for auditing purposes)
-        public DateTime CreatedDate { get; set; }
         //public Category[] Categories { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
 

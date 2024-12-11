@@ -3,7 +3,7 @@
 
 CREATE TABLE lytis
 (
-	id int,
+	id int IDENTITY(1,1),
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -13,7 +13,7 @@ INSERT INTO lytis(id, name) VALUES(3, 'kita');
 
 CREATE TABLE mokėjimostatusas
 (
-	id int,
+	id int IDENTITY(1,1),
 	name varchar (255),
 	PRIMARY KEY(id)
 );
@@ -21,7 +21,7 @@ CREATE TABLE mokėjimostatusas
 
 CREATE TABLE mokejimotipas
 (
-	id int,
+	id int IDENTITY(1,1),
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -33,7 +33,7 @@ INSERT INTO mokejimotipas(id, name) VALUES(5, 'paypal+parduotuvės_kreditas');
 
 CREATE TABLE nuolaidosstatusas
 (
-	id int,
+	id int IDENTITY(1,1),
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -43,7 +43,7 @@ INSERT INTO nuolaidosstatusas(id, name) VALUES(3, 'pasibaigęs');
 
 CREATE TABLE nuolaidossukūrimobūdas
 (
-	id int,
+	id int IDENTITY(1,1),
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -52,7 +52,7 @@ INSERT INTO nuolaidossukūrimobūdas(id, name) VALUES(2, 'rankinis');
 
 CREATE TABLE sandelis
 (
-	id int,
+	id int IDENTITY(1,1),
 	pavadinimas varchar (255) NOT NULL,
 	vieta varchar (255),
 	PRIMARY KEY(id)
@@ -61,7 +61,7 @@ CREATE TABLE sandelis
 CREATE TABLE vartotojas
 (
 	age int,
-	id int NOT NULL,
+	id int IDENTITY(1,1),,
 	vardas varchar (255),
 	pavarde varchar (255),
 	slaptazodis varchar (255),
@@ -71,7 +71,7 @@ CREATE TABLE vartotojas
 
 CREATE TABLE siuntimostatusas
 (
-	id int,
+	id int IDENTITY(1,1),
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -82,7 +82,7 @@ INSERT INTO siuntimostatusas(id, name) VALUES(4, 'atšaukta');
 
 CREATE TABLE administratorius
 (
-	id int NOT NULL,
+	id int IDENTITY(1,1),,
 	arvadovas BIT NOT NULL,
 	atlyginimas float,
 	kortelesnumeris varchar (255),
@@ -92,7 +92,7 @@ CREATE TABLE administratorius
 
 CREATE TABLE kategorija
 (
-	id int NOT NULL,
+	id int IDENTITY(1,1),,
 	pavadinimas varchar (255) NOT NULL,
 	aprasas VARCHAR(MAX)  NOT NULL,
 	fk_tevinekategorija int,
@@ -102,7 +102,7 @@ CREATE TABLE kategorija
 
 CREATE TABLE nuolaidoskodas
 (
-	id int,
+	id int IDENTITY(1,1),
 	sukurimodata date,
 	veikimopradziosdata date NULL,
 	panaudojimuskaičius int NULL,
@@ -121,7 +121,7 @@ CREATE TABLE nuolaidoskodas
 
 CREATE TABLE pardavejas
 (
-	id int NOT NULL,
+	id int IDENTITY(1,1),
 	vieta varchar (255),
 	PRIMARY KEY(id),
 	FOREIGN KEY(id) REFERENCES vartotojas (id)
@@ -141,7 +141,7 @@ CREATE TABLE atlyginimas
 CREATE TABLE pirkejas
 (
 	age int,
-	id int NOT NULL,
+	id int IDENTITY(1,1),,
 	gimimodata date,
 	vieta varchar (255),
 	parduotuveskreditas float ,
@@ -156,7 +156,7 @@ CREATE TABLE pirkejas
 
 CREATE TABLE produktas
 (
-	id int,
+	id int IDENTITY(1,1),
 	pavadinimas varchar (255) NOT NULL,
 	kaina float NOT NULL,
 	aprasas VARCHAR(MAX)  NOT NULL,
@@ -194,7 +194,7 @@ CREATE TABLE uzsakymas
 	pradzia date,
 	pabaiga date,
 	siuntimoadresas varchar (255),
-	id int NOT NULL,
+	id int IDENTITY(1,1),,
 	fk_pirkejas int NOT NULL,
 	PRIMARY KEY(id),
 	CONSTRAINT Sukuria FOREIGN KEY(fk_pirkejas) REFERENCES pirkejas (id)
@@ -210,8 +210,8 @@ CREATE TABLE kategorijaProduktas
 
 CREATE TABLE mokestis
 (
+	id int IDENTITY(1,1),
 	count int,
-	id int NOT NULL,
 	mokestis float ,
 	fk_mokejimotipas int NOT NULL,
 	fk_mokejimostatusas int NOT NULL,

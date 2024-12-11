@@ -1,7 +1,29 @@
-﻿
+﻿@model IEnumerable<WebApplication2.Models.Product>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Parduotuvė";
 }
 
-<h2>Index</h2>
+<h2>Parduotuvė</h2>
 
+   
+
+    <div class="container my-5">
+        <div class="row">
+            @foreach (var item in Model)
+{
+            <!-- Product 1 -->
+            <div class="col-md-4">
+                <div class="card product-card">
+                    <img src=" @Html.DisplayFor(modelItem => item.imageURL)" class="card-img-top m-auto" style="max-height:200px;max-width:333px" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.name)</h5>
+                        <p class="card-text"> @Html.DisplayFor(modelItem => item.description)</p>
+                        <p class="card-text"><strong>$ @Html.DisplayFor(modelItem => item.price)</strong></p>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>

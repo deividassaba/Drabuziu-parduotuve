@@ -47,7 +47,7 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,description,price,amount,imageURL,CreatedDate")] Product product)
+        public ActionResult Create([Bind(Include = "id,name,description,price,amount,imageURL,manufacturer,mass")] Product product)
         {
             if (ModelState.IsValid)
             {

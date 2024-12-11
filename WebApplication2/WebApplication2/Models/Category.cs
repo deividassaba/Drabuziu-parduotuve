@@ -7,14 +7,17 @@ using System.Web;
 
 namespace WebApplication2.Models
 {
-    [Table("kategorijos")] // Table name explicitly defined
+    [Table("kategorija")] // Table name explicitly defined
 
     public class Category
     {
-        public string table{ get; set; }
+        [Column("id")]
         public int id { get; set; }
+        [Column("pavadinimas")]
         public string name { get; set; }
+        [Column("aprasas")]
         public string description { get; set; }
+        [Column("fk_tevinekategorija")]
         public int parentId { get; set; }
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
 
