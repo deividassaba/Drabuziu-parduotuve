@@ -1,29 +1,5 @@
 ﻿--@(#) script.ddl
 
-DROP TABLE IF EXISTS uzsakymasproduktas;
-DROP TABLE IF EXISTS mokestis;
-DROP TABLE IF EXISTS kategorijaProduktas;
-DROP TABLE IF EXISTS uzsakymas;
-DROP TABLE IF EXISTS sandelisproduktas;
-DROP TABLE IF EXISTS nuolaidoskodas_produktas;
-DROP TABLE IF EXISTS produktas;
-DROP TABLE IF EXISTS pirkejas;
-DROP TABLE IF EXISTS atlyginimas;
-DROP TABLE IF EXISTS pardavejas;
-DROP TABLE IF EXISTS nuolaidoskodas;
-DROP TABLE IF EXISTS administratorius;
-DROP TABLE IF EXISTS siuntimostatusas;
-DROP TABLE IF EXISTS vartotojas;
-DROP TABLE IF EXISTS sandelis;
-DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS paymenttype;
-DROP TABLE IF EXISTS nuolaidossukūrimobūdas;
-DROP TABLE IF EXISTS nuolaidosstatusas;
-DROP TABLE IF EXISTS mokejimotipas;
-DROP TABLE IF EXISTS mokėjimostatusas;
-DROP TABLE IF EXISTS lytis;
-DROP TABLE IF EXISTS kategorija;
-
 
 CREATE TABLE lytis
 (
@@ -85,7 +61,7 @@ CREATE TABLE sandelis
 CREATE TABLE vartotojas
 (
 	age int,
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	vardas varchar (255),
 	pavarde varchar (255),
 	slaptazodis varchar (255),
@@ -106,7 +82,7 @@ INSERT INTO siuntimostatusas(id, name) VALUES(4, 'atšaukta');
 
 CREATE TABLE administratorius
 (
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	arvadovas BIT NOT NULL,
 	atlyginimas float,
 	kortelesnumeris varchar (255),
@@ -116,7 +92,7 @@ CREATE TABLE administratorius
 
 CREATE TABLE kategorija
 (
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	pavadinimas varchar (255) NOT NULL,
 	aprasas VARCHAR(MAX)  NOT NULL,
 	fk_tevinekategorija int,
@@ -165,7 +141,7 @@ CREATE TABLE atlyginimas
 CREATE TABLE pirkejas
 (
 	age int,
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	gimimodata date,
 	vieta varchar (255),
 	parduotuveskreditas float ,
@@ -218,7 +194,7 @@ CREATE TABLE uzsakymas
 	pradzia date,
 	pabaiga date,
 	siuntimoadresas varchar (255),
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	fk_pirkejas int NOT NULL,
 	PRIMARY KEY(id),
 	CONSTRAINT Sukuria FOREIGN KEY(fk_pirkejas) REFERENCES pirkejas (id)

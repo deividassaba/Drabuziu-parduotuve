@@ -19,12 +19,13 @@ namespace WebApplication2.Models
         public string description { get; set; }
         [Column("fk_tevinekategorija")]
         public int parentId { get; set; }
-        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+/*        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
 
         public Category()
         {
             ProductCategories = new HashSet<ProductCategory>();
         }
+ */
         /*public Category Parent { get; set; }
         public Product Products { get; set; }
 

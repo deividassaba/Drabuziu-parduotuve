@@ -1,5 +1,7 @@
 ﻿--@(#) script.ddl
 
+
+
 CREATE TABLE kategorija
 (
 	id int NOT NULL,
