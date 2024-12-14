@@ -175,6 +175,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CouponsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -184,6 +185,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Coupon.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderProduct.cs" />
     <Compile Include="Models\ProductCategory.cs" />
@@ -218,6 +220,11 @@
     <Content Include="Views\Warehouses\Details.cshtml" />
     <Content Include="Views\Warehouses\Edit.cshtml" />
     <Content Include="Views\Warehouses\Index.cshtml" />
+    <Content Include="Views\Coupons\Create.cshtml" />
+    <Content Include="Views\Coupons\Delete.cshtml" />
+    <Content Include="Views\Coupons\Details.cshtml" />
+    <Content Include="Views\Coupons\Edit.cshtml" />
+    <Content Include="Views\Coupons\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
