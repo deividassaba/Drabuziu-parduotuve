@@ -18,7 +18,7 @@ namespace WebApplication2.Models
         [Column("aprasas")]
         public string description { get; set; }
         [Column("fk_tevinekategorija")]
-        public int parentId { get; set; }
+        public int? parentId { get; set; }
 /*        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
 
         public Category()
@@ -26,8 +26,10 @@ namespace WebApplication2.Models
             ProductCategories = new HashSet<ProductCategory>();
         }
  */
-        /*public Category Parent { get; set; }
-        public Product Products { get; set; }
+        public Category Parent { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+
+        /*public Product Products { get; set; }
 
         public Category[] getParents()
         {

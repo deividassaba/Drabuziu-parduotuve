@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS kategorija;
 
 CREATE TABLE lytis
 (
-	id int IDENTITY(1,1),
+	id int,
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -45,7 +45,7 @@ CREATE TABLE mokėjimostatusas
 
 CREATE TABLE mokejimotipas
 (
-	id int IDENTITY(1,1),
+	id int,
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -57,7 +57,7 @@ INSERT INTO mokejimotipas(id, name) VALUES(5, 'paypal+parduotuvės_kreditas');
 
 CREATE TABLE nuolaidosstatusas
 (
-	id int IDENTITY(1,1),
+	id int,
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -67,7 +67,7 @@ INSERT INTO nuolaidosstatusas(id, name) VALUES(3, 'pasibaigęs');
 
 CREATE TABLE nuolaidossukūrimobūdas
 (
-	id int IDENTITY(1,1),
+	id int,
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -95,7 +95,7 @@ CREATE TABLE vartotojas
 
 CREATE TABLE siuntimostatusas
 (
-	id int IDENTITY(1,1),
+	id int,
 	name varchar (255) NOT NULL,
 	PRIMARY KEY(id)
 );

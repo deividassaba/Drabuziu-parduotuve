@@ -33,16 +33,18 @@ namespace WebApplication2.Models
         public string manufacturer { get; set; }
         [Column("nuotraukos_url")]
         public string imageURL{ get; set; }
+        [Column("fk_pardavėjas")]
+        public int? seller { get; set; }
 
 
         //public Category[] Categories { get; set; }
-        //public virtual ICollection<ProductCategory> ProductCategories { get; set; }
-        /*
+        public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+
         public virtual ICollection<Category> Categories { get; set; }
         public Product()
         {
             //ProductCategories = new HashSet<ProductCategory>();
             //Categories=
-        }*/
+        }
     }
 }

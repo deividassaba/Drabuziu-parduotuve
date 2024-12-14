@@ -68,13 +68,17 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="CategorySelection">Categories</label>
-        <select asp-for="ProductCategories" class="form-control" multiple="multiple">
-            @foreach (var category in ViewBag.Categories as IEnumerable<WebApplication2.Models.Category>)
-            {
-                <option value="@category.id">@category.name</option>
-            }
-        </select>
+        <label for="CategorySelection">Kategorijos</label>
+        @foreach (var category in ViewBag.Categories as IEnumerable<WebApplication2.Models.Category>)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="categories[]" value="@category.id" id="category_@category.id">
+                <label class="form-check-label" for="category_@category.id">
+                    @category.name
+                </label>
+            </div>
+
+        }
         <span asp-validation-for="ProductCategories" class="text-danger"></span>
     </div>
     <div class="form-group">

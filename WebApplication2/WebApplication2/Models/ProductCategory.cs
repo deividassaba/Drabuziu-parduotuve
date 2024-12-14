@@ -6,14 +6,15 @@ using System.Web;
 
 namespace WebApplication2.Models
 {
-    [Table("produktas_kategorija")] // Table name explicitly defined
+    [Table("kategorijaProduktas")] // Table name explicitly defined
 
     public class ProductCategory
     {
-        public string table { get; set; }
+        [Column("fk_produktas")]
         public int ProductId { get; set; } // Foreign key to Product
         public Product Product { get; set; }
 
+        [Column("fk_kategorija")]
         public int CategoryId { get; set; } // Foreign key to Category
         public Category Category { get; set; }
     }

@@ -49,8 +49,13 @@
         <dd>
             @Html.DisplayFor(model => model.imageURL)
         </dd>
-
-
+        <div>Kategorijos</div>
+        @foreach (var PrCa in Model.ProductCategories as ICollection<WebApplication2.Models.ProductCategory>)
+        {
+            <div>
+               @PrCa.CategoryId
+            </div>
+        }
     </dl>
 </div>
 <p>

@@ -39,6 +39,10 @@ namespace WebApplication2.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
+
+            var categories = db.Categories.ToList();
+            ViewBag.Categories = categories;
+
             return View();
         }
 
@@ -51,7 +55,7 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                // if (category.parentId == 0) category.parentId = null;
+                if (category.parentId == 0) category.parentId = null;
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -63,6 +67,7 @@ namespace WebApplication2.Controllers
         // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -72,6 +77,8 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
+            var categories = db.Categories.ToList();
+            ViewBag.Categories = categories;
             return View(category);
         }
 
@@ -84,6 +91,7 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (category.parentId == 0) category.parentId = null;
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
