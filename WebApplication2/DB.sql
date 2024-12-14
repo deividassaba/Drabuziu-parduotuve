@@ -1,6 +1,27 @@
 ﻿--@(#) script.ddl
-
-
+DROP TABLE IF EXISTS uzsakymasproduktas;
+DROP TABLE IF EXISTS kategorijaProduktas;
+DROP TABLE IF EXISTS sandelisproduktas;
+DROP TABLE IF EXISTS nuolaidoskodas_produktas;
+DROP TABLE IF EXISTS nuolaidossukūrimobūdas;
+DROP TABLE IF EXISTS mokestis;
+DROP TABLE IF EXISTS uzsakymas;
+DROP TABLE IF EXISTS pirkejas;
+DROP TABLE IF EXISTS atlyginimas;
+DROP TABLE IF EXISTS pardavejas;
+DROP TABLE IF EXISTS nuolaidoskodas;
+DROP TABLE IF EXISTS administratorius;
+DROP TABLE IF EXISTS siuntimostatusas;
+DROP TABLE IF EXISTS vartotojas;
+DROP TABLE IF EXISTS sandelis;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS paymenttype;
+DROP TABLE IF EXISTS nuolaidosstatusas;
+DROP TABLE IF EXISTS mokejimotipas;
+DROP TABLE IF EXISTS mokėjimostatusas;
+DROP TABLE IF EXISTS lytis;
+DROP TABLE IF EXISTS kategorija;
+DROP TABLE IF EXISTS produktas;
 
 CREATE TABLE lytis
 (
