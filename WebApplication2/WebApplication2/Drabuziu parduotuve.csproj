@@ -177,6 +177,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CouponsController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
@@ -188,6 +189,7 @@
     </Compile>
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Coupon.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderProduct.cs" />
     <Compile Include="Models\Payments.cs" />
@@ -230,6 +232,11 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Warehouses\AddExistingProduct.cshtml" />
     <Content Include="Views\Payments\Index.cshtml" />
+    <Content Include="Views\Coupons\Create.cshtml" />
+    <Content Include="Views\Coupons\Delete.cshtml" />
+    <Content Include="Views\Coupons\Details.cshtml" />
+    <Content Include="Views\Coupons\Edit.cshtml" />
+    <Content Include="Views\Coupons\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

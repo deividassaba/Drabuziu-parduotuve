@@ -102,23 +102,23 @@ namespace WebApplication2.Data
 
         }
 
+		public System.Data.Entity.DbSet<WebApplication2.Models.Coupon> Coupons { get; set; }
+
+		/*
+		// Configure the many-to-many relationship using the ProductCategory join table
+		modelBuilder.Entity<ProductCategory>()
+			.HasKey(pc => new { pc.ProductId, pc.CategoryId }); // Composite key
+
+		modelBuilder.Entity<ProductCategory>()
+			.HasRequired(pc => pc.Product)
+			.WithMany(p => p.ProductCategories)
+			.HasForeignKey(pc => pc.ProductId);
+
+		modelBuilder.Entity<ProductCategory>()
+			.HasRequired(pc => pc.Category)
+			.WithMany(c => c.ProductCategories)
+			.HasForeignKey(pc => pc.CategoryId);*/
 
 
-        /*
-        // Configure the many-to-many relationship using the ProductCategory join table
-        modelBuilder.Entity<ProductCategory>()
-            .HasKey(pc => new { pc.ProductId, pc.CategoryId }); // Composite key
-
-        modelBuilder.Entity<ProductCategory>()
-            .HasRequired(pc => pc.Product)
-            .WithMany(p => p.ProductCategories)
-            .HasForeignKey(pc => pc.ProductId);
-
-        modelBuilder.Entity<ProductCategory>()
-            .HasRequired(pc => pc.Category)
-            .WithMany(c => c.ProductCategories)
-            .HasForeignKey(pc => pc.CategoryId);*/
-
-
-    }
+	}
 }

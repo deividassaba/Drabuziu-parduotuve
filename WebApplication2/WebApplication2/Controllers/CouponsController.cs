@@ -45,19 +45,50 @@ namespace WebApplication2.Controllers
         // POST: Coupons/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Sukurimo_data,Veikimo_pradzios_data,Panaudojimu_sk,Kodas,Verte,Aprasymas,Pavadinimas,Galiojimo_pabaigos_data,Yra_ribotas")] Coupon coupon)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Coupons.Add(coupon);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(coupon);
-        }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(Coupon coupon)
+		{
+			if (!ModelState.IsValid)
+				return View(coupon);
+
+			try 
+			{
+				coupon.Sukurimo_data = DateTime.UtcNow;
+                // Keep generating codes until we find a unique one
+                var random = new Random();
+				string code;
+				do 
+				{
+					string timestamp = DateTime.UtcNow.ToString("yyMMddHHmm");
+                    string randomPart = new string(Enumerable.Range(0, 4)
+						.Select(_ => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[random.Next(36)])
+						.ToArray());
+					code = $"{timestamp}{randomPart}";
+
+				} 
+				while (db.Coupons.Any(c => c.Kodas == code));
+
+				coupon.Kodas = code;
+				db.Coupons.Add(coupon);
+				db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+			catch (Exception ex)
+			{
+				var fullError = "";
+				var currentEx = ex;
+				while (currentEx != null)
+				{
+					fullError += currentEx.Message + " | ";
+					currentEx = currentEx.InnerException;
+				}
+				Console.WriteLine("Full error: " + fullError);
+				ModelState.AddModelError("", fullError);
+				return View(coupon);
+			}
+		}
 
         // GET: Coupons/Edit/5
         public ActionResult Edit(int? id)
