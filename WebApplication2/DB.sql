@@ -1,12 +1,12 @@
 ﻿--@(#) script.ddl
 
 DROP TABLE IF EXISTS uzsakymasproduktas;
-DROP TABLE IF EXISTS mokestis;
 DROP TABLE IF EXISTS kategorijaProduktas;
-DROP TABLE IF EXISTS uzsakymas;
 DROP TABLE IF EXISTS sandelisproduktas;
 DROP TABLE IF EXISTS nuolaidoskodas_produktas;
-DROP TABLE IF EXISTS produktas;
+DROP TABLE IF EXISTS nuolaidossukūrimobūdas;
+DROP TABLE IF EXISTS mokestis;
+DROP TABLE IF EXISTS uzsakymas;
 DROP TABLE IF EXISTS pirkejas;
 DROP TABLE IF EXISTS atlyginimas;
 DROP TABLE IF EXISTS pardavejas;
@@ -17,13 +17,12 @@ DROP TABLE IF EXISTS vartotojas;
 DROP TABLE IF EXISTS sandelis;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS paymenttype;
-DROP TABLE IF EXISTS nuolaidossukūrimobūdas;
 DROP TABLE IF EXISTS nuolaidosstatusas;
 DROP TABLE IF EXISTS mokejimotipas;
 DROP TABLE IF EXISTS mokėjimostatusas;
 DROP TABLE IF EXISTS lytis;
 DROP TABLE IF EXISTS kategorija;
-
+DROP TABLE IF EXISTS produktas;
 
 CREATE TABLE lytis
 (
@@ -85,7 +84,7 @@ CREATE TABLE sandelis
 CREATE TABLE vartotojas
 (
 	age int,
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	vardas varchar (255),
 	pavarde varchar (255),
 	slaptazodis varchar (255),
@@ -106,7 +105,7 @@ INSERT INTO siuntimostatusas(id, name) VALUES(4, 'atšaukta');
 
 CREATE TABLE administratorius
 (
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	arvadovas BIT NOT NULL,
 	atlyginimas float,
 	kortelesnumeris varchar (255),
@@ -116,13 +115,12 @@ CREATE TABLE administratorius
 
 CREATE TABLE kategorija
 (
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	pavadinimas varchar (255) NOT NULL,
 	aprasas VARCHAR(MAX)  NOT NULL,
 	fk_tevinekategorija int,
 	PRIMARY KEY(id),
-	CONSTRAINT Priklauso FOREIGN KEY(fk_tevinekategorija) REFERENCES kategorija (id)
-);
+	);
 
 CREATE TABLE nuolaidoskodas
 (
@@ -158,14 +156,12 @@ CREATE TABLE atlyginimas
 	fk_administratorius int NOT NULL,
 	fk_administratorius1 int NOT NULL,
 	PRIMARY KEY(fk_administratorius, fk_administratorius1),
-	CONSTRAINT Gauna FOREIGN KEY(fk_administratorius) REFERENCES administratorius (id),
-	CONSTRAINT Moka FOREIGN KEY(fk_administratorius1) REFERENCES administratorius (id)
-);
+		);
 
 CREATE TABLE pirkejas
 (
 	age int,
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	gimimodata date,
 	vieta varchar (255),
 	parduotuveskreditas float ,
@@ -174,8 +170,7 @@ CREATE TABLE pirkejas
 	PRIMARY KEY(id),
 	UNIQUE(fk_nuolaidoskodas),
 	FOREIGN KEY(lytis) REFERENCES lytis (id),
-	CONSTRAINT priklauso FOREIGN KEY(fk_nuolaidoskodas) REFERENCES nuolaidoskodas (id),
-	FOREIGN KEY(id) REFERENCES vartotojas (id)
+		FOREIGN KEY(id) REFERENCES vartotojas (id)
 );
 
 CREATE TABLE produktas
@@ -190,8 +185,7 @@ CREATE TABLE produktas
 	nuotraukos_url varchar (255) NOT NULL,
 	fk_pardavėjas int NOT NULL,
 	PRIMARY KEY(id),
-	CONSTRAINT Sukuria FOREIGN KEY(fk_pardavėjas) REFERENCES pardavejas (id)
-);
+	);
 
 CREATE TABLE nuolaidoskodas_produktas
 (
@@ -199,17 +193,14 @@ CREATE TABLE nuolaidoskodas_produktas
 	fk_produktas int NOT NULL,
 	fk_nuolaidoskodas int NOT NULL,
 	PRIMARY KEY(fk_nuolaidoskodas, fk_produktas),
-	CONSTRAINT priklauso FOREIGN KEY(fk_produktas) REFERENCES produktas (id)
-);
+	);
 
 CREATE TABLE sandelisproduktas
 (
 	fk_sandelis int NOT NULL,
 	fk_produktas int NOT NULL,
 	PRIMARY KEY(fk_produktas, fk_sandelis),
-	CONSTRAINT dalisJo FOREIGN KEY(fk_sandelis) REFERENCES sandelis (id),
-	CONSTRAINT r FOREIGN KEY(fk_produktas) REFERENCES produktas (id)
-);
+		);
 
 CREATE TABLE uzsakymas
 (
@@ -218,19 +209,17 @@ CREATE TABLE uzsakymas
 	pradzia date,
 	pabaiga date,
 	siuntimoadresas varchar (255),
-	id int IDENTITY(1,1),,
+	id int IDENTITY(1,1),
 	fk_pirkejas int NOT NULL,
 	PRIMARY KEY(id),
-	CONSTRAINT Sukuria FOREIGN KEY(fk_pirkejas) REFERENCES pirkejas (id)
-);
+	);
 
 CREATE TABLE kategorijaProduktas
 (
 	fk_kategorija int NOT NULL,
 	fk_produktas int NOT NULL,
 	PRIMARY KEY(fk_kategorija, fk_produktas),
-	CONSTRAINT Priklauso FOREIGN KEY(fk_kategorija) REFERENCES kategorija (id)
-);
+	);
 
 CREATE TABLE mokestis
 (
@@ -248,10 +237,7 @@ CREATE TABLE mokestis
 	UNIQUE(fk_uzsakymas),
 	FOREIGN KEY(fk_mokejimotipas) REFERENCES mokėjimotipas (id_mokėjimotipas),
 	FOREIGN KEY(fk_mokejimostatusas) REFERENCES mokėjimostatusas (id),
-	CONSTRAINT Gauna FOREIGN KEY(fk_pirkejas) REFERENCES pirkejas (id),
-	CONSTRAINT sukuria FOREIGN KEY(fk_uzsakymas) REFERENCES uzsakymas (id),
-	CONSTRAINT Moka FOREIGN KEY(fk_pirkejas1) REFERENCES pirkejas (id)
-);
+			);
 
 CREATE TABLE uzsakymasproduktas
 (
@@ -259,6 +245,4 @@ CREATE TABLE uzsakymasproduktas
 	fk_produktas int NOT NULL,
 	fk_uzsakymas int NOT NULL,
 	PRIMARY KEY(fk_produktas, fk_uzsakymas),
-	CONSTRAINT prideda FOREIGN KEY(fk_produktas) REFERENCES produktas (id),
-	CONSTRAINT duoda FOREIGN KEY(fk_uzsakymas) REFERENCES uzsakymas (id)
-);
+		);
