@@ -24,10 +24,9 @@ namespace WebApplication2.Models
         [Column("mase")]
         [Range(0, int.MaxValue)]
         public double mass { get; set; }
-        [Column("kiekis")]
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int amount{ get; set; }
+        public int getAmount() {
+            return 0;
+        }
 
         [Column("gamintojas")]
         public string manufacturer { get; set; }

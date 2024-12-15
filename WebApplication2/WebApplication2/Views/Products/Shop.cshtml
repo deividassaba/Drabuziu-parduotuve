@@ -17,7 +17,7 @@
 
     <div class="container my-5">
         <div class="row">
-            <button id="filter-toggle" class="btn btn-secondary">Filtravimo langas</button>
+            <button id="filter-toggle" class="btn btn-secondary my-5">Filtravimo langas</button>
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
@@ -103,17 +103,14 @@
             }
             @foreach (var item in ViewBag.Products as IEnumerable<WebApplication2.Models.Product>)
             {
-                var categories = ViewBag.Categories as IEnumerable<WebApplication2.Models.Product>; // Assuming you have a Categories table
-                ViewBag.Categories = categories;
                 <!-- Product 1 -->
                 <div class="col-md-4">
                     <div class="card product-card">
-                        <img src=" @Html.DisplayFor(modelItem => item.imageURL)" class="card-img-top m-auto" style="max-height:200px;max-width:333px" alt="Product Image">
+                        <img src="@item.imageURL" class="card-img-top m-auto" style="max-height:200px;max-width:333px" alt="Produkto nuotrauka">
                         <div class="card-body">
-                            <h5 class="card-title"> @Html.DisplayFor(modelItem => item.name)</h5>
-                            <p class="card-text"> @Html.DisplayFor(modelItem => item.description)</p>
+                            <a href="/Products/Details/@item.id"><h5 class="card-title"> @Html.DisplayFor(modelItem => item.name)</h5></a>
                             <p class="card-text"><strong>$ @Html.DisplayFor(modelItem => item.price)</strong></p>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                            <a href="#" class="btn btn-primary">Į krepšelį</a>
                         </div>
                     </div>
                 </div>

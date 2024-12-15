@@ -4,7 +4,7 @@
     ViewBag.Title = "Produktai";
 }
 
-<h2>Index</h2>
+<h2>Produktai</h2>
 
 <p>
     @Html.ActionLink("Naujas", "Create")
@@ -12,19 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Pavadinimas
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.description)
+            Aprašas
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.price)
+            Kaina
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.imageURL)
+            Nuotrauka
         </th>
         <th></th>
     </tr>
@@ -41,10 +38,7 @@
             @Html.DisplayFor(modelItem => item.price)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.imageURL)
+            <img style="max-width:50px;"src="@item.imageURL">
         </td>
         <td>
             @Html.ActionLink("Redaguoti", "Edit", new { id=item.id }) |

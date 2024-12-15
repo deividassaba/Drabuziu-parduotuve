@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Build.Framework.XamlTypes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Data;
 using WebApplication2.Models;
-
+using Category = WebApplication2.Models.Category;
 namespace WebApplication2.Controllers
 {
     public class ProductsController : Controller
@@ -29,7 +30,14 @@ namespace WebApplication2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
-            product.Categories = new LinkedList<Category>();
+            var categories = new List<Category>();
+            foreach( var category in db.Categories.ToList())
+            {
+                if(product.ProductCategories.Any(pr => pr.CategoryId == category.id)){
+                    categories.Add(category);
+                }
+            }
+            ViewBag.Categories = categories;
             if (product == null)
             {
                 return HttpNotFound();
@@ -50,7 +58,7 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,name,description,price,amount,imageURL,manufacturer,mass")] Product product, 
+        public ActionResult Create([Bind(Include = "id,name,description,price,imageURL,manufacturer,mass")] Product product, 
          int[] categories)
         {
             if (ModelState.IsValid)
@@ -58,7 +66,7 @@ namespace WebApplication2.Controllers
                 product.seller = null;
                 db.Products.Add(product);
                 db.SaveChanges();
-                product.Categories = new List<Category>();
+                //product.Categories = new List<Category>();
                 if (categories != null)
                 {
 
@@ -86,11 +94,15 @@ namespace WebApplication2.Controllers
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             }
             Product product = db.Products.Find(id);
+            var categories = db.Categories.ToList(); // Assuming you have a Categories table
+            ViewBag.Categories = categories;
             if (product == null)
             {
                 return HttpNotFound();
@@ -103,12 +115,32 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,description,price,amount,imageURL,CreatedDate")] Product product)
+        public ActionResult Edit([Bind(Include = "id,name,description,price,imageURL,manufacturer,mass")] Product product, int[] categories)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
+                foreach (var pc in db.ProductCategories.Where(p => p.ProductId == product.id).ToList())
+                    db.ProductCategories.Remove(pc);
+                db.SaveChanges();
+                if (categories != null)
+                {
+
+                    foreach (var categoryId in categories)
+                    {
+
+                        var categoryExists = db.Categories.Any(c => c.id == categoryId);
+                        if (categoryExists)
+                        {
+                            db.Database.ExecuteSqlCommand(
+                           "INSERT INTO kategorijaProduktas (fk_produktas, fk_kategorija) VALUES (@p0, @p1)",
+                           parameters: new object[] { product.id, categoryId });
+                            //product.Categories.Add(category);
+                        }
+                    }
+                    //db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -126,7 +158,17 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(product);
+            db.Products.Remove(product);
+            /*db.ProductCategories.Where(p => p.ProductId == product.id).Remove()
+            db.Database.ExecuteSqlCommand(
+            "DELETE FROM kategorijaProduktas WHERE fk_produktas = @p0",
+            parameters: new object[] { product.id });*/
+
+            foreach (var pc in db.ProductCategories.Where(p => p.ProductId == product.id).ToList())
+                db.ProductCategories.Remove(pc);
+            db.SaveChanges();
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // POST: Products/Delete/5
@@ -136,7 +178,7 @@ namespace WebApplication2.Controllers
         {
             Product product = db.Products.Find(id);
             db.Products.Remove(product);
-            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -238,8 +280,6 @@ namespace WebApplication2.Controllers
                 products_temp = new List<Product>();
                 float min = -1;
                 float max = 5000;
-                System.Diagnostics.Debug.WriteLine(filter_text_price_from);
-                System.Diagnostics.Debug.WriteLine(filter_text_price_to);
                 min = filter_text_price_from != null ? (float)filter_text_price_from : min;
                 max = filter_text_price_to != null ? (float)filter_text_price_to : max;
 

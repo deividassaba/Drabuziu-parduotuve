@@ -4,61 +4,40 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.name</h2>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.amount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.amount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.imageURL)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.imageURL)
-        </dd>
-        <div>Kategorijos</div>
-        @foreach (var PrCa in Model.ProductCategories as ICollection<WebApplication2.Models.ProductCategory>)
-        {
+<div class="row">
+        <div class="col-md-6">
+        <img style="max-width:500px;"src="@Model.imageURL"/>
+         </div>
+        <div class="col-md-6">
+            <dt>
+                Kaina:
+                @String.Format("{0:0.00} €", Model.price)
+            </dt>
             <div>
-               @PrCa.CategoryId
+                Liko:
+                @Model.getAmount()
             </div>
-        }
-    </dl>
+            <div>
+                Masė:
+                @Model.mass
+            </div>
+
+            <div>
+                Gaminotojas:
+                @Model.manufacturer
+            </div>
+            <div>Aprašas</div>
+            <p>@Model.description</p>
+            <div>Kategorijos</div>
+            @foreach (var PrCa in Model.ProductCategories as ICollection<WebApplication2.Models.ProductCategory>)
+            {
+                <div>
+                    @PrCa.CategoryId
+                </div>
+            }
+            <a href="#" class="btn btn-primary">Į krepšelį</a>
+        </div>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

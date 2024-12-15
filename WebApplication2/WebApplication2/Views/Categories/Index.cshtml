@@ -7,7 +7,7 @@
 <h2>Kategorijos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Naujas", "Create")
 </p>
 <table class="table">
     <tr>
@@ -35,8 +35,8 @@
             @Html.DisplayFor(modelItem => item.parentId)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Redaguoti", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Šalinti", "Delete", new { id=item.id })
         </td>
     </tr>
 }
