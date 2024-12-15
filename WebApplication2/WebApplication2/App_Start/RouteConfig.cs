@@ -13,14 +13,14 @@ namespace WebApplication2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-                name: "Parduotuve",
-                url: "parduotuve/{id}",
-                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+                name: "Root",
+                url: "",
+                defaults: new { controller = "Products", action = "Shop" } // Root URL now maps to Shop
             );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+                defaults: new {action = "Index", id = UrlParameter.Optional }
             );
         }
     }
