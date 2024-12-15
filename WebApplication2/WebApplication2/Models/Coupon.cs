@@ -44,5 +44,12 @@ namespace WebApplication2.Models
         [Column("yraribotas")]
         public bool Yra_ribotas { get; set; }
 
+        public virtual ICollection<CouponProduct> CouponProducts { get; set; }
+
+        [NotMapped]
+		public List<int> SelectedProductIds { get; set; }
+		
+		[NotMapped]
+		public Dictionary<int, int?> ProductMinQuantities { get; set; }
     }
 }

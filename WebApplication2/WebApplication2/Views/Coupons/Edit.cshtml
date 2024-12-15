@@ -15,6 +15,8 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Sukurimo_data)
+        @Html.HiddenFor(model => model.Kodas)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Veikimo_pradzios_data, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -29,14 +31,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Panaudojimu_sk, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Panaudojimu_sk, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Kodas, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Kodas, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Kodas, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -79,6 +73,27 @@
                     @Html.EditorFor(model => model.Yra_ribotas)
                     @Html.ValidationMessageFor(model => model.Yra_ribotas, "", new { @class = "text-danger" })
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Products</label>
+            <div class="col-md-10">
+                @foreach (var product in ViewBag.Products)
+                {
+                    var isSelected = Model.SelectedProductIds != null && Model.SelectedProductIds.Contains(product.id);
+                    var quantity = Model.ProductMinQuantities != null && Model.ProductMinQuantities.ContainsKey(product.id) 
+                        ? Model.ProductMinQuantities[product.id] 
+                        : null;
+                    
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="SelectedProductIds" value="@product.id" @(isSelected ? "checked" : "") />
+                            @product.name
+                            <input type="number" name="ProductMinQuantities[@product.id]" value="@quantity" />
+                        </label>
+                    </div>
+                }
             </div>
         </div>
 
