@@ -16,12 +16,6 @@ namespace WebApplication2.Models
         public string name { get; set; }
         [Column("vieta")]
         public string place { get; set; }
-        /*
-        public virtual ICollection<WarehouseProduct> WarehouseProduct { get; set; }
-
-        public Warehouse()
-        {
-            WarehouseProduct = new HashSet<WarehouseProduct>();
-        }*/
+        public virtual ICollection<WarehouseProduct> WarehouseProducts { get; set; }
     }
 }

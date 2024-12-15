@@ -28,16 +28,21 @@
                 Gaminotojas:
                 @Model.manufacturer
             </div>
-            <div>Aprašas</div>
+            <div>Aprašas:</div>
             <p>@Model.description</p>
-            <div>Kategorijos</div>
-            @foreach (var PrCa in Model.ProductCategories as ICollection<WebApplication2.Models.ProductCategory>)
+            <div>Kategorijos:</div>
+            @foreach (var category in Model.ProductCategories)
             {
                 <div>
-                    @PrCa.CategoryId
+                    @category.Category.name
                 </div>
             }
-            <a href="#" class="btn btn-primary">Į krepšelį</a>
+            <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                <input type="hidden" name="id" value="@Model.id" />
+                <input type="hidden" name="name" value="@Model.name" />
+                <input type="hidden" name="price" value="@Model.price" />
+                <button type="submit" class="btn btn-primary">Į krepšelį</button>
+            </form>
         </div>
 
 </div>

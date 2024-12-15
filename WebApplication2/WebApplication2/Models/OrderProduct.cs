@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication2.Models
 {
-    [Table("uzsakymas_produktas")] // Table name explicitly defined
+    [Table("uzsakymasproduktas")] // Table name explicitly defined
 
     public class OrderProduct
     {
-        public string table { get; set; }        
-        public float cost { get; set; }
-        public int ProductId { get; set; } // Foreign key to Product
-        public Product Product { get; set; }
+        [Column("fk_uzsakymas")] // Maps to the database column
+        public int OrderId { get; set; }
 
-        public int OrderId { get; set; } // Foreign key to Warehouse
-        public Order Order { get; set; }
+        [Column("fk_produktas")] // Maps to the database column
+        public int ProductId { get; set; }
+
+        [Column("kaina")] // Maps to the database column
+        public float cost { get; set; }
+
+        public Product Product { get; set; }
+        public Order Order{ get; set; }
     }
 }

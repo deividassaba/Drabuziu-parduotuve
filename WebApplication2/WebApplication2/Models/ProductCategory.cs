@@ -12,10 +12,11 @@ namespace WebApplication2.Models
     {
         [Column("fk_produktas")]
         public int ProductId { get; set; } // Foreign key to Product
-        public Product Product { get; set; }
 
         [Column("fk_kategorija")]
         public int CategoryId { get; set; } // Foreign key to Category
-        public Category Category { get; set; }
+
+        public virtual Product Product { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace WebApplication2.Models
         [Column("id")]
         public int id { get; set; }
         [Column("mokestis")]
-        public string count { get; set; }
+        public float cost { get; set; }
+        [Column("fk_mokejimotipas")] 
+        public int FkMokejimoTipas { get; set; } 
+        [Column("fk_pirkejas")] 
+        public int FkPirkejas { get; set; } 
+        [Column("fk_uzsakymas")] 
+        public int FkUzsakymas { get; set; } 
     }
 }

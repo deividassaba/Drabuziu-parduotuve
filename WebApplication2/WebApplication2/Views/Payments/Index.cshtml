@@ -1,33 +1,108 @@
 ﻿@model IEnumerable<WebApplication2.Models.Payment>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Revenue Analysis";
 }
 
-<h2>Index</h2>
+<h2>Revenue Analysis</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.count)
-        </th>
-        <th></th>
-    </tr>
+<div class="charts-container">
+    <div class="chart">
+        <canvas id="profitExpenseChart"></canvas>
+    </div>
+    <div class="chart">
+        <canvas id="revenueCOGSChart"></canvas>
+    </div>
+    <div class="chart">
+        <canvas id="topClothesChart"></canvas>
+    </div>
+    <div class="chart">
+        <canvas id="monthlyRevenueChart"></canvas>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.count)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+<script>
+    // Pie Chart 1: Profits vs Expenses
+    var ctx1 = document.getElementById('profitExpenseChart').getContext('2d');
+    var profitExpenseChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: ['Net Profit', 'Total Expenses'],
+            datasets: [{
+                label: 'Profits vs Expenses',
+                data: [@ViewBag.NetProfit, @ViewBag.TotalExpenses],
+                backgroundColor: ['#36A2EB', '#FF5733'],
+            }]
+        }
+    });
 
-</table>
+    // Pie Chart 2: Revenue vs COGS
+    var ctx2 = document.getElementById('revenueCOGSChart').getContext('2d');
+    var revenueCOGSChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Total Revenue', 'COGS'],
+            datasets: [{
+                label: 'Revenue vs COGS',
+                data: [@ViewBag.TotalRevenue, @ViewBag.TotalExpenses],
+                backgroundColor: ['#FFB74D', '#FF7043'],
+            }]
+        }
+    });
+
+    // Bar Chart: Top Clothes by Category
+    var ctx3 = document.getElementById('topClothesChart').getContext('2d');
+    var topClothesChart = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Encode(ViewBag.TopClothesCategories)),
+            datasets: [{
+                label: 'Top Sold Clothes by Category',
+                data: @Html.Raw(Json.Encode(ViewBag.TopClothesSold)),
+                backgroundColor: '#42A5F5',
+                borderColor: '#1E88E5',
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Bar Chart: Monthly Revenue Trend
+    var ctx4 = document.getElementById('monthlyRevenueChart').getContext('2d');
+    var monthlyRevenueChart = new Chart(ctx4, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Encode(ViewBag.MonthlyRevenueLabels)),
+            datasets: [{
+                label: 'Monthly Revenue',
+                data: @Html.Raw(Json.Encode(ViewBag.MonthlyRevenueData)),
+                backgroundColor: '#66BB6A',
+                borderColor: '#388E3C',
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
+
+<h3>Debugging ViewBag</h3>
+<pre>
+    NetProfit: @ViewBag.NetProfit
+    TotalExpenses: @ViewBag.TotalExpenses
+    TotalRevenue: @ViewBag.TotalRevenue
+    TopClothesCategories: @Html.Raw(Json.Encode(ViewBag.TopClothesCategories))
+    TopClothesSold: @Html.Raw(Json.Encode(ViewBag.TopClothesSold))
+    MonthlyRevenueLabels: @Html.Raw(Json.Encode(ViewBag.MonthlyRevenueLabels))
+    MonthlyRevenueData: @Html.Raw(Json.Encode(ViewBag.MonthlyRevenueData))
+</pre>
+
+<style>
+    .charts-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .chart {
+        width: 100%;
+        height: 300px;
+    }
+</style>

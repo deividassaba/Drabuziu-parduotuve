@@ -47,7 +47,7 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,location,itemCount,cost,start,end,buyerId")] Order order)
+        public ActionResult Create([Bind(Include = "id,location,itemCount,cost,start,end,status,buyerId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,location,itemCount,cost,start,end,buyerId")] Order order)
+        public ActionResult Edit([Bind(Include = "id,location,itemCount,cost,start,end,status,buyerId")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -111,8 +111,13 @@ namespace WebApplication2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
+            if (order != null)
+            {
+                // Nustatome užsakymo būseną kaip "Atšauktas"
+                order.status = "Atšauktas"; 
+                db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

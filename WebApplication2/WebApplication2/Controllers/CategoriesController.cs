@@ -58,10 +58,9 @@ namespace WebApplication2.Controllers
                 if (category.parentId == 0) category.parentId = null;
                 db.Categories.Add(category);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                
             }
-
-            return View(category);
+            return RedirectToAction("Index");
         }
 
         // GET: Categories/Edit/5
@@ -94,9 +93,8 @@ namespace WebApplication2.Controllers
                 if (category.parentId == 0) category.parentId = null;
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(category);
+            return RedirectToAction("Index");
         }
 
         // GET: Categories/Delete/5

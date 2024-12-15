@@ -29,19 +29,18 @@ namespace WebApplication2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Product product = db.Products.Find(id);
-            var categories = new List<Category>();
-            foreach( var category in db.Categories.ToList())
-            {
-                if(product.ProductCategories.Any(pr => pr.CategoryId == category.id)){
-                    categories.Add(category);
-                }
-            }
-            ViewBag.Categories = categories;
             if (product == null)
             {
                 return HttpNotFound();
             }
+            var categories = new List<Category>();
+            /*foreach (var prct in product.ProductCategories)
+            {
+                categories.Add(db.Categories.Find(prct.CategoryId));
+            }*/
+
             return View(product);
         }
 
@@ -85,10 +84,10 @@ namespace WebApplication2.Controllers
                     }
                     //db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
             }
 
-            return View(product);
+            return RedirectToAction($"Details/{product.id}");
         }
 
         // GET: Products/Edit/5
@@ -141,9 +140,8 @@ namespace WebApplication2.Controllers
                     }
                     //db.SaveChanges();
                 }
-                return RedirectToAction("Index");
             }
-            return View(product);
+            return RedirectToAction($"Details/{product.id}");
         }
 
         // GET: Products/Delete/5

@@ -17,18 +17,17 @@ namespace WebApplication2.Models
         [Column("kiekis")]
         public int itemCount { get; set; }
         [Column("verte")]
-        public float cost { get; set; }
+        public double cost { get; set; }
         [Column("pradzia")]
         public DateTime start { get; set; }
         [Column("pabaiga")]
         public DateTime end { get; set; }
+        [Column("statusas")]
+        public string status { get; set; }
         [Column("fk_pirkejas")]
         public int buyerId { get; set; }
 
-        /*public virtual ICollection<OrderProduct> OrderProduct { get; set; }
-        public Order()
-        {
-            OrderProduct = new HashSet<OrderProduct>();
-        }*/
+        public virtual ICollection<OrderProduct> OrderProduct { get; set; }
+       
     }
 }

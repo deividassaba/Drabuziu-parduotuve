@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Data;
 using WebApplication2.Models;
+using static Mysqlx.Expect.Open.Types.Condition.Types;
 
 namespace WebApplication2.Controllers
 {
@@ -15,114 +16,90 @@ namespace WebApplication2.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
-        // GET: Payments
+        public float CalculateCOGSForCurrentMonth()
+        {
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1); 
+            DateTime endDate = startDate.AddMonths(1).AddDays(-1); 
+
+            var beginningInventory = db.Orders
+                .Where(i => i.start < startDate)  
+                .OrderByDescending(i => i.start)  
+                .Select(i => i.itemCount)
+                .FirstOrDefault(); 
+
+            var totalPurchases = db.Payments
+                .Join(db.Orders, p => p.FkUzsakymas, o => o.id, (p, o) => new { Payment = p, Order = o })
+                .Where(x => x.Order.start >= startDate && x.Order.end <= endDate)  
+                .Sum(x => (float?)x.Payment.cost) ?? 0;
+
+            var endingInventory = db.Orders
+            .Where(i => i.end <= endDate)
+            .OrderByDescending(i => i.end)
+            .Select(i => (float)i.itemCount) 
+            .FirstOrDefault();
+
+            var cogs = beginningInventory + totalPurchases - endingInventory;
+
+            return cogs;
+        }
         public ActionResult Index()
         {
-            return View(db.Payments.ToList());
-        }
+            // Step 4: Calculate total revenue from the mokestis column
+            var totalRevenue = db.Payments.Sum(m => m.cost); 
 
-        // GET: Payments/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Payment payment = db.Payments.Find(id);
-            if (payment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(payment);
-        }
+            // Step 5: Calculate gross profit (assume COGS logic exists)
+            var totalCOGS = CalculateCOGSForCurrentMonth();
+            var grossProfit = totalRevenue - totalCOGS;
 
-        // GET: Payments/Create
-        public ActionResult Create()
-        {
+            // Step 6: Calculate operating profit
+            var totalOperatingExpenses = db.Salaries.Sum(e => e.cost); // Replace with more cost due to every warehouse
+            var operatingProfit = grossProfit - totalOperatingExpenses;
+
+            // Step 7: Calculate profit margin
+            var profitMargin = (operatingProfit / totalRevenue) * 100;
+
+            // Step 8: Calculate total expenses
+            var totalExpenses = totalOperatingExpenses + totalCOGS;
+
+            // Step 9: Calculate net profit or loss
+
+            // var otherIncome = db.OtherIncomes.Sum(o => o.Amount); // Replace with actual table
+
+            var netProfit = totalRevenue - (totalExpenses + totalCOGS);
+            
+            var topClothes = db.Products
+            .SelectMany(p => p.ProductCategories)  
+            .GroupBy(c => c.Category)  
+            .Select(g => new
+            {
+            Category = g.Key.name,  
+            TotalSold = g.Count()  
+            })
+            .ToList();
+            
+            var monthlyRevenue = db.Payments
+                       .Join(db.Orders, p => p.FkUzsakymas, o => o.id, (p, o) => new { p, o }) 
+                       .GroupBy(po => po.o.start.Month) 
+                       .Select(g => new
+                       {
+                           Month = g.Key,
+                           Revenue = g.Sum(po => po.p.cost) 
+                       })
+                       .OrderBy(x => x.Month)
+                       .ToList();
+
+            ViewBag.TopClothesCategories = topClothes.Select(tc => tc.Category).ToList();
+            ViewBag.TopClothesSold = topClothes.Select(tc => tc.TotalSold).ToList();
+
+
+            ViewBag.TotalRevenue = totalRevenue;
+            ViewBag.GrossProfit = grossProfit;
+            ViewBag.OperatingProfit = operatingProfit;
+            ViewBag.ProfitMargin = profitMargin;
+            ViewBag.TotalExpenses = totalExpenses;
+            ViewBag.NetProfit = netProfit;
             return View();
         }
 
-        // POST: Payments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,count")] Payment payment)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Payments.Add(payment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(payment);
-        }
-
-        // GET: Payments/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Payment payment = db.Payments.Find(id);
-            if (payment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(payment);
-        }
-
-        // POST: Payments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,count")] Payment payment)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(payment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(payment);
-        }
-
-        // GET: Payments/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Payment payment = db.Payments.Find(id);
-            if (payment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(payment);
-        }
-
-        // POST: Payments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Payment payment = db.Payments.Find(id);
-            db.Payments.Remove(payment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

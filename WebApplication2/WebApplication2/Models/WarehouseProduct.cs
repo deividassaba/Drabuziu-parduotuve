@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -10,13 +11,16 @@ namespace WebApplication2.Models
 
     public class WarehouseProduct
     {
-        [Column("fk_produktas")]
-        public int ProductId { get; set; } // Foreign key to Product
+        [Column("fk_sandelis")] // Maps to the database column
+        public int WarehouseId { get; set; }
+
+        [Column("fk_produktas")] // Maps to the database column
+        public int ProductId { get; set; }
+
+        [Column("kiekis")] // Maps to the database column
+        public int Count { get; set; }
+
         public Product Product { get; set; }
-        [Column("fk_sandelis")]
-        public int WarehouseId { get; set; } // Foreign key to Warehouse
         public Warehouse Warehouse { get; set; }
-        [Column("kiekis")]
-        public int amount { get; set; }
     }
 }
