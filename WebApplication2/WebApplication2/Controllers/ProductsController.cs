@@ -40,10 +40,8 @@ namespace WebApplication2.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-
             var categories = db.Categories.ToList(); // Assuming you have a Categories table
             ViewBag.Categories = categories;
-
             return View();
         }
 

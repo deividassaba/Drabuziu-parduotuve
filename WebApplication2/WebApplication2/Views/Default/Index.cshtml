@@ -1,35 +1,122 @@
-﻿@model IEnumerable<WebApplication2.Models.Product>
-
+﻿
 @{
     ViewBag.Title = "Parduotuvė";
 }
 
 <h2>Parduotuvė</h2>
 
-   
+   <style>
+       .d-none {
+           display: none;
+       }
+       .price-range{
+           max-width:49%;
+           display:inline-block;
+       }
+    </style>
 
     <div class="container my-5">
         <div class="row">
-            <button class="btn btn-secondary">Filtravimo langas</button>
-            <div id="filter">
-                <input class=""/>
-                <input/>
-                <input/>
-            </div>
-            @foreach (var item in Model)
-{
-            <!-- Product 1 -->
-            <div class="col-md-4">
-                <div class="card product-card">
-                    <img src=" @Html.DisplayFor(modelItem => item.imageURL)" class="card-img-top m-auto" style="max-height:200px;max-width:333px" alt="Product Image">
-                    <div class="card-body">
-                        <h5 class="card-title"> @Html.DisplayFor(modelItem => item.name)</h5>
-                        <p class="card-text"> @Html.DisplayFor(modelItem => item.description)</p>
-                        <p class="card-text"><strong>$ @Html.DisplayFor(modelItem => item.price)</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+            <button id="filter-toggle" class="btn btn-secondary">Filtravimo langas</button>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div id="filter" class="d-none">
+
+                    <div class="col-md-3">
+                        Kategorijos
+                        @foreach (var category in ViewBag.Categories as IEnumerable<WebApplication2.Models.Category>)
+                        {
+                            bool isSelected = (ViewBag.filter_categories as IEnumerable<int>).Contains(category.id);
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="filter_categories[]" value="@category.id" id="category_@category.id" @(isSelected ? "checked" : "")>
+
+                                <label class="form-check-label" for="category_@category.id">
+                                    @category.name
+                                </label>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <label>Pavadinimas</label>
+                        <input class="form-control" type="text" name="filter_text_name" id="filter_text_name"
+                               @(ViewBag.filter_text_name != null ? $"value={ViewBag.filter_text_name}" : "")>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Kaina</label>
+                        @{
+                            float? filter_text_price_from = ViewBag.filter_text_price_from;
+                            float? filter_text_price_to = ViewBag.filter_text_price_to;
+                        }
+                        <div>
+                            <input class="form-control price-range" type="text" name="filter_text_price_from" placeholder="nuo" id="filter_text_price_from"
+                                   @(filter_text_price_from != null ? $"value={filter_text_price_from}" : "")>
+                            <input class="form-control price-range" type="text" name="filter_text_price_to" placeholder="iki" id="filter_text_price_to"
+                                   @(filter_text_price_to != null ? $"value={filter_text_price_to}" : "")>
+                        </div>
+                        <select class="form-control d-none" name="filter_values_price">
+                                <option value="0"></option>
+                                <option value="1">iki 20 eur</option>
+                                <option value="2">nuo 20 iki 40 eur</option>
+                                <option value="3">iki 50 eur</option>
+                            </select>
+                        </div>
+                    <div class="col-md-3">
+                        <label>Gamintojas</label>
+                        <input class="form-control d-none" type="text" name="filter_text_manufacturer" id="filter_text_manufacturer" >
+                        @foreach (var manufacturer in ViewBag.manufacturers)
+                        {
+                            bool isSelected = false;
+                            if (ViewBag.filter_values_manufacturer != null)
+                            {
+                                foreach( string mann in ViewBag.filter_values_manufacturer as IEnumerable<string>)
+                                {
+                                    if (mann.Equals(manufacturer))
+                                    {
+                                        isSelected = true;
+                                    }
+                                }
+
+                            }
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="filter_values_manufacturer[]" value="@manufacturer" id="filter_values_manufacturer" @(isSelected ? "checked" : "")>
+
+                                <label class="form-check-label" for="">
+                                    @manufacturer
+                                </label>
+                            </div>
+
+                        }
+                    </div>
+                    <input type="submit" style="display:block;margin:auto" value="Filtruoti" class="btn btn-default" />
+                </div>
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+                        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+                        crossorigin="anonymous"></script>
+                <script>
+                    $("#filter-toggle").on("click", function () {
+                        $("#filter").toggleClass("d-none");
+                    });
+                </script>
+
+            }
+            @foreach (var item in ViewBag.Products as IEnumerable<WebApplication2.Models.Product>)
+            {
+                var categories = ViewBag.Categories as IEnumerable<WebApplication2.Models.Product>; // Assuming you have a Categories table
+                ViewBag.Categories = categories;
+                <!-- Product 1 -->
+                <div class="col-md-4">
+                    <div class="card product-card">
+                        <img src=" @Html.DisplayFor(modelItem => item.imageURL)" class="card-img-top m-auto" style="max-height:200px;max-width:333px" alt="Product Image">
+                        <div class="card-body">
+                            <h5 class="card-title"> @Html.DisplayFor(modelItem => item.name)</h5>
+                            <p class="card-text"> @Html.DisplayFor(modelItem => item.description)</p>
+                            <p class="card-text"><strong>$ @Html.DisplayFor(modelItem => item.price)</strong></p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
     </div>

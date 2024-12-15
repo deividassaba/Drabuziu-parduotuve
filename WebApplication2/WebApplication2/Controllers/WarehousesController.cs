@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
             }
             Warehouse warehouse = db.Warehouses.Find(id);
             if (warehouse == null)
-            {
+            {//aa
                 return HttpNotFound();
             }
             return View(warehouse);

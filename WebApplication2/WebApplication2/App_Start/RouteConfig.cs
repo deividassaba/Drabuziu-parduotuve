@@ -12,7 +12,11 @@ namespace WebApplication2
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            routes.MapRoute(
+                name: "Parduotuve",
+                url: "parduotuve/{id}",
+                defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+            );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
