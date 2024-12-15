@@ -24,8 +24,15 @@ namespace WebApplication2.Models
         [Column("mase")]
         [Range(0, int.MaxValue)]
         public double mass { get; set; }
+        public virtual ICollection<WarehouseProduct> WarehouseProducts { get; set; }
+
         public int getAmount() {
-            return 0;
+            int amount = 0;
+            foreach(WarehouseProduct entry in WarehouseProducts)
+            {
+                amount+=entry.amount;
+            }
+            return amount;
         }
 
         [Column("gamintojas")]

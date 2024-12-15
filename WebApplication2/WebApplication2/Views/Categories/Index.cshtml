@@ -11,14 +11,15 @@
 </p>
 <table class="table">
     <tr>
+        <th>id</th>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Pavadinimas
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.description)
+            Aprašas
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.parentId)
+            Tėvinė kadegorija
         </th>
         <th></th>
     </tr>
@@ -26,17 +27,20 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.parentId)
+            @Html.DisplayFor(modelItem => item.Parent.name)
         </td>
         <td>
-            @Html.ActionLink("Redaguoti", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Šalinti", "Delete", new { id=item.id })
+            @Html.ActionLink("Redaguoti", "Edit", new { id = item.id }) |
+            @Html.ActionLink("Šalinti", "Delete", new { id = item.id })
         </td>
     </tr>
 }

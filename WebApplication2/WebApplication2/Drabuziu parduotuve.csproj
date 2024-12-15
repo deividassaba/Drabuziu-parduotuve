@@ -178,6 +178,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\WarehousesController.cs" />
     <Compile Include="Data\DatabaseContext.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderProduct.cs" />
+    <Compile Include="Models\Payments.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Warehouse.cs" />
@@ -218,6 +220,11 @@
     <Content Include="Views\Warehouses\Details.cshtml" />
     <Content Include="Views\Warehouses\Edit.cshtml" />
     <Content Include="Views\Warehouses\Index.cshtml" />
+    <Content Include="Views\Payments\Create.cshtml" />
+    <Content Include="Views\Payments\Delete.cshtml" />
+    <Content Include="Views\Payments\Details.cshtml" />
+    <Content Include="Views\Payments\Edit.cshtml" />
+    <Content Include="Views\Payments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

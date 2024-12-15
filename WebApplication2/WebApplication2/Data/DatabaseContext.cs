@@ -14,8 +14,9 @@ namespace WebApplication2.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
-        public System.Data.Entity.DbSet<WebApplication2.Models.Order> Orders { get; set; }
-        public System.Data.Entity.DbSet<WebApplication2.Models.Warehouse> Warehouses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<WarehouseProduct> WarehouseProducts { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             
@@ -29,6 +30,8 @@ namespace WebApplication2.Data
 
             modelBuilder.Entity<ProductCategory>()
             .HasKey(pc => new { pc.ProductId, pc.CategoryId }); // Composite key
+            modelBuilder.Entity<WarehouseProduct>()
+            .HasKey(pc => new { pc.ProductId, pc.WarehouseId}); // Composite key
             /*
             modelBuilder.Entity<ProductCategory>()
                 .HasRequired(pc => pc.Product)
@@ -60,22 +63,24 @@ namespace WebApplication2.Data
                 .HasForeignKey(pc => pc.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);*/
         }
-            
-            /*
-            // Configure the many-to-many relationship using the ProductCategory join table
-            modelBuilder.Entity<ProductCategory>()
-                .HasKey(pc => new { pc.ProductId, pc.CategoryId }); // Composite key
 
-            modelBuilder.Entity<ProductCategory>()
-                .HasRequired(pc => pc.Product)
-                .WithMany(p => p.ProductCategories)
-                .HasForeignKey(pc => pc.ProductId);
+        public System.Data.Entity.DbSet<WebApplication2.Models.Payment> Payments { get; set; }
 
-            modelBuilder.Entity<ProductCategory>()
-                .HasRequired(pc => pc.Category)
-                .WithMany(c => c.ProductCategories)
-                .HasForeignKey(pc => pc.CategoryId);*/
-        
+        /*
+        // Configure the many-to-many relationship using the ProductCategory join table
+        modelBuilder.Entity<ProductCategory>()
+            .HasKey(pc => new { pc.ProductId, pc.CategoryId }); // Composite key
+
+        modelBuilder.Entity<ProductCategory>()
+            .HasRequired(pc => pc.Product)
+            .WithMany(p => p.ProductCategories)
+            .HasForeignKey(pc => pc.ProductId);
+
+        modelBuilder.Entity<ProductCategory>()
+            .HasRequired(pc => pc.Category)
+            .WithMany(c => c.ProductCategories)
+            .HasForeignKey(pc => pc.CategoryId);*/
+
 
     }
 }

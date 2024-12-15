@@ -109,7 +109,7 @@
                         <img src="@item.imageURL" class="card-img-top m-auto" style="max-height:200px;max-width:333px" alt="Produkto nuotrauka">
                         <div class="card-body">
                             <a href="/Products/Details/@item.id"><h5 class="card-title"> @Html.DisplayFor(modelItem => item.name)</h5></a>
-                            <p class="card-text"><strong>$ @Html.DisplayFor(modelItem => item.price)</strong></p>
+                            <p class="card-text"><strong>@String.Format("{0:0.00} €", item.price)</strong></p>
                             <a href="#" class="btn btn-primary">Į krepšelį</a>
                         </div>
                     </div>
