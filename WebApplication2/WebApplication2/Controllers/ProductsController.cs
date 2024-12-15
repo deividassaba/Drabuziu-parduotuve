@@ -29,18 +29,11 @@ namespace WebApplication2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             Product product = db.Products.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
             }
-            var categories = new List<Category>();
-            /*foreach (var prct in product.ProductCategories)
-            {
-                categories.Add(db.Categories.Find(prct.CategoryId));
-            }*/
-
             return View(product);
         }
 
@@ -62,29 +55,23 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                product.seller = null;
+                product.seller = (int?)Session["UserId"];
                 db.Products.Add(product);
                 db.SaveChanges();
-                //product.Categories = new List<Category>();
+                product.Categories = new List<Category>();
                 if (categories != null)
                 {
-
+                    System.Diagnostics.Debug.WriteLine("form:");
                     foreach (var categoryId in categories)
                     {
-                        
-                        var categoryExists = db.Categories.Any(c => c.id == categoryId);
-                        if (categoryExists)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Selected Category ID: {categoryId}");
-                            db.Database.ExecuteSqlCommand(
-                           "INSERT INTO kategorijaProduktas (fk_produktas, fk_kategorija) VALUES (@p0, @p1)",
-                           parameters: new object[] { product.id, categoryId });
-                            //product.Categories.Add(category);
-                        }
+                        var productcategory = new ProductCategory();
+                        var category = db.Categories.Where(c => c.id == categoryId).First();
+                        productcategory.Product= product;
+                        productcategory.Category = category;
+                        db.ProductCategories.Add(productcategory);
                     }
-                    //db.SaveChanges();
+                    db.SaveChanges();
                 }
-                //return RedirectToAction("Index");
             }
 
             return RedirectToAction($"Details/{product.id}");
@@ -128,17 +115,13 @@ namespace WebApplication2.Controllers
 
                     foreach (var categoryId in categories)
                     {
-
-                        var categoryExists = db.Categories.Any(c => c.id == categoryId);
-                        if (categoryExists)
-                        {
-                            db.Database.ExecuteSqlCommand(
-                           "INSERT INTO kategorijaProduktas (fk_produktas, fk_kategorija) VALUES (@p0, @p1)",
-                           parameters: new object[] { product.id, categoryId });
-                            //product.Categories.Add(category);
-                        }
+                        var productcategory = new ProductCategory();
+                        var category = db.Categories.Where(c => c.id == categoryId).First();
+                        productcategory.Product = product;
+                        productcategory.Category = category;
+                        db.ProductCategories.Add(productcategory);
                     }
-                    //db.SaveChanges();
+                    db.SaveChanges();
                 }
             }
             return RedirectToAction($"Details/{product.id}");
@@ -157,11 +140,6 @@ namespace WebApplication2.Controllers
                 return HttpNotFound();
             }
             db.Products.Remove(product);
-            /*db.ProductCategories.Where(p => p.ProductId == product.id).Remove()
-            db.Database.ExecuteSqlCommand(
-            "DELETE FROM kategorijaProduktas WHERE fk_produktas = @p0",
-            parameters: new object[] { product.id });*/
-
             foreach (var pc in db.ProductCategories.Where(p => p.ProductId == product.id).ToList())
                 db.ProductCategories.Remove(pc);
             db.SaveChanges();
