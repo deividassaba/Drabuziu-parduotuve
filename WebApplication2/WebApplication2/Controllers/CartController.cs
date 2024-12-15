@@ -11,13 +11,64 @@ namespace WebApplication2.Controllers
     public class CartController : Controller
     {
         private const string CartSessionKey = "Cart";
+        private const string CouponSessionKey = "AppliedCoupon";
 
         // GET: Cart
         public ActionResult Index()
-        {
-            var cart = Session[CartSessionKey] as List<CartItem> ?? new List<CartItem>();
-            return View(cart);
-        }
+		{
+			var cart = Session[CartSessionKey] as List<CartItem> ?? new List<CartItem>();
+			var couponCode = Session[CouponSessionKey] as string;
+
+			// Reset prices to original before applying discount
+			foreach (var item in cart)
+			{
+				item.Price = item.OriginalPrice;
+			}
+			
+			if (!string.IsNullOrEmpty(couponCode))
+			{
+				using (var db = new DatabaseContext())
+				{
+					var coupon = db.Coupons
+						.Include("CouponProducts")
+						.FirstOrDefault(c => c.Kodas == couponCode &&
+										   (!c.Galiojimo_pabaigos_data.HasValue || c.Galiojimo_pabaigos_data >= DateTime.Now) &&
+										   (!c.Veikimo_pradzios_data.HasValue || c.Veikimo_pradzios_data <= DateTime.Now) &&
+										   (!c.Yra_ribotas || (c.Yra_ribotas && c.Panaudojimu_sk > 0)));
+
+					if (coupon != null)
+					{
+						foreach (var item in cart)
+						{
+							var couponProduct = coupon.CouponProducts
+								.FirstOrDefault(cp => cp.ProductId == item.ProductId);
+
+							if (couponProduct != null && 
+								(!couponProduct.MinQuantity.HasValue || item.Quantity >= couponProduct.MinQuantity.Value))
+							{
+								item.Price = item.OriginalPrice * (1 - (float)(coupon.Verte / 100));
+							}
+						}
+						ViewBag.CouponMessage = "Nuolaida pritaikyta";
+					}
+					else
+					{
+						ViewBag.CouponMessage = "Neteisingas nuolaidos kodas arba jis nebegalioja";
+						Session[CouponSessionKey] = null;
+					}
+				}
+			}
+
+			return View(cart);
+		}
+
+        [HttpPost]
+		public ActionResult ApplyCoupon(string couponCode)
+		{
+			Session[CouponSessionKey] = couponCode;
+			return RedirectToAction("Index");
+		}
+
 
         // POST: AddToCart
         [HttpPost]
@@ -37,6 +88,7 @@ namespace WebApplication2.Controllers
                     ProductId = id,
                     Name = name,
                     Price = price,
+                    OriginalPrice = price,
                     Quantity = 1
                 });
             }

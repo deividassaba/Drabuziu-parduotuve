@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<WebApplication2.Models.Coupon>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Kuponai";
 }
 
-<h2>Index</h2>
+<h2>Kuponai</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Sukurti naują", "Create")
 </p>
 <table class="table">
     <tr>
@@ -71,9 +71,9 @@
             @Html.DisplayFor(modelItem => item.Yra_ribotas)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Redaguoti", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Detalės", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Šalinti", "Delete", new { id=item.Id })
         </td>
     </tr>
 }
