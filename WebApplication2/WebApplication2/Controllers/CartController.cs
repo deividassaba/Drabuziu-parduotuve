@@ -99,43 +99,101 @@ namespace WebApplication2.Controllers
         }
 
         // POST: Checkout
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Checkout()
-        {
-            var cart = Session[CartSessionKey] as List<CartItem>;
-            if (cart == null || !cart.Any())
-            {
-                return RedirectToAction("Index", "Orders");
-            }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Checkout()
+		{
+			var cart = Session[CartSessionKey] as List<CartItem>;
+			if (cart == null || !cart.Any())
+			{
+				return RedirectToAction("Index", "Orders");
+			}
 
-            // Create a new order
-            var order = new Order
-            {
-                location = "Customer's Address", // Replace with actual data
-                itemCount = cart.Sum(c => c.Quantity),
-                cost = (float)cart.Sum(c => c.Price * c.Quantity),
-                start = DateTime.Now,
-                end = DateTime.Now.AddDays(3), // Example delivery time
-                status = "Pateiktas",
-                buyerId = 1, // Replace with actual buyer ID
-                OrderProduct = cart.Select(c => new OrderProduct
-                {
-                    ProductId = c.ProductId,
-                    cost = (float)(c.Price * c.Quantity)
-                }).ToList()
-            };
+			var userId = (int)Session["UserId"];
 
-            using (var db = new DatabaseContext())
-            {
-                db.Orders.Add(order);
-                db.SaveChanges();
-            }
+			using (var db = new DatabaseContext())
+			using (var userDb = new ApplicationDbContext())
+			{
+				var order = new Order
+				{
+					location = "Customer's Address",
+					itemCount = cart.Sum(c => c.Quantity),
+					cost = (float)cart.Sum(c => c.Price * c.Quantity),
+					start = DateTime.Now,
+					end = DateTime.Now.AddDays(3),
+					status = "Pateiktas",
+					buyerId = userId,
+					OrderProduct = cart.Select(c => new OrderProduct
+					{
+						ProductId = c.ProductId,
+						cost = (float)(c.Price * c.Quantity)
+					}).ToList()
+				};
 
-            // Clear cart after checkout
-            Session[CartSessionKey] = null;
+				db.Orders.Add(order);
+				db.SaveChanges();
 
-            return RedirectToAction("Index", "Orders");
-        }
+				try
+				{
+					var coupon = new Coupon
+					{
+						Sukurimo_data = DateTime.UtcNow,
+						Veikimo_pradzios_data = DateTime.UtcNow,
+						Galiojimo_pabaigos_data = DateTime.UtcNow.AddMonths(1), // Coupon valid for 1 month
+						Panaudojimu_sk = 1, // One-time use
+						Yra_ribotas = true,
+						Verte = 10, // 10% discount
+						Pavadinimas = "Lojalumo nuolaida",
+						Aprasymas = "Ačiū už pirkinį! Štai jūsų nuolaida kitam apsipirkimui."
+					};
+
+					var random = new Random();
+					string code;
+					do
+					{
+						string timestamp = DateTime.UtcNow.ToString("yyMMddHHmm");
+						string randomPart = new string(Enumerable.Range(0, 4)
+							.Select(_ => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[random.Next(36)])
+							.ToArray());
+						code = $"{timestamp}{randomPart}";
+					}
+					while (db.Coupons.Any(c => c.Kodas == code));
+
+					coupon.Kodas = code;
+
+					db.Coupons.Add(coupon);
+					db.SaveChanges();
+
+					// Link products to the coupon
+					// Strategy: Include products that were bought in quantity of 2 or more
+					foreach (var item in cart.Where(x => x.Quantity >= 2))
+					{
+						db.Database.ExecuteSqlCommand(
+							"INSERT INTO nuolaidoskodas_produktas (fk_produktas, fk_nuolaidoskodas, minkiekis) VALUES ({0}, {1}, {2})",
+							item.ProductId, coupon.Id, 1
+						);
+					}
+
+					var user = userDb.Users.Find(userId);
+					if (user != null)
+					{
+						userDb.Database.ExecuteSqlCommand(
+							"UPDATE vartotojas SET fk_nuolaidoskodas = {0} WHERE id = {1}",
+							coupon.Id, userId
+							);
+					}
+
+					TempData["CouponCode"] = code;
+				}
+				catch (Exception ex)
+				{
+					System.Diagnostics.Debug.WriteLine($"Failed to create coupon: {ex.Message}");
+				}
+
+				Session[CartSessionKey] = null;
+
+				return RedirectToAction("Index", "Orders");
+			}
+		}
     }
 }
