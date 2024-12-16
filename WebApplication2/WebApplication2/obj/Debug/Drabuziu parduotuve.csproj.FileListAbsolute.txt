@@ -1,3 +1,5 @@
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\Drabuziu parduotuve.csproj.AssemblyReference.cache
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\Drabuziu parduotuve.csproj.CoreCompileInputs.cache
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\WebApplication2.dll.config
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\WebApplication2.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\WebApplication2.pdb
@@ -59,9 +61,14 @@ C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\K4os.Hash.xxHash.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.dll
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.Security.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\MySql.Data.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\MySql.Data.EntityFramework.dll
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Owin.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\System.Buffers.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\System.Configuration.ConfigurationManager.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\System.Diagnostics.DiagnosticSource.dll
@@ -86,6 +93,10 @@ C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\K4os.Compression.LZ4.Streams.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\K4os.Hash.xxHash.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.xml
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.Security.xml
+C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.Owin.Security.Cookies.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\MySql.Data.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\MySql.Data.EntityFramework.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\System.Buffers.xml
@@ -103,8 +114,6 @@ C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\System.Web.Helpers.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\System.Web.Mvc.xml
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\Drabuziu parduotuve.csproj.AssemblyReference.cache
-C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\Drabuziu parduotuve.csproj.CoreCompileInputs.cache
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\Drabuziu parduotuve.csproj.CopyComplete
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\deivi\OneDrive\Pulpit\UNIVERAS\pagr\LD4\WebApplication2\WebApplication2\obj\Debug\WebApplication2.pdb

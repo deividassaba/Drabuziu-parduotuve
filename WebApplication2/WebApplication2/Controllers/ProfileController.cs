@@ -32,7 +32,7 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound(); // Handle if user is not found
             }
-
+            /*
             var couponId = _context.Database.SqlQuery<int?>(
                 "SELECT fk_nuolaidoskodas FROM vartotojas WHERE id = @p0",
                 (int)userId
@@ -44,7 +44,7 @@ namespace WebApplication2.Controllers
                     .Include("CouponProducts")
                     .FirstOrDefault(c => c.Id == couponId);
 			}
-
+            */
             return View(user); // Pass user to the view
         }
 

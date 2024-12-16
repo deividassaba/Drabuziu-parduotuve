@@ -78,7 +78,7 @@ namespace WebApplication2.Controllers
                 {
                    
                     Session["UserId"] = user.Id;
-                    return Redirect("/");
+                    return Redirect("/Profile");
 
                 }
                 else
@@ -94,7 +94,7 @@ namespace WebApplication2.Controllers
         public ActionResult Logout()
         {
             Session.Clear(); // Clear the session to log out
-            return Redirect("/S"); // Redirect to the home page or login page
+            return Redirect("/Profile/View"); // Redirect to the home page or login page
         }
 
     }

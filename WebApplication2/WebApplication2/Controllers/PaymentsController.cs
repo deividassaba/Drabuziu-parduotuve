@@ -45,14 +45,21 @@ namespace WebApplication2.Controllers
         public ActionResult Index()
         {
             // Step 4: Calculate total revenue from the mokestis column
-            var totalRevenue = db.Payments.Sum(m => m.cost); 
-
+            float totalRevenue = 0;
+            if (db.Payments.Count() > 0)
+            {
+                totalRevenue = db.Payments.Sum(m => m.cost);
+            }
             // Step 5: Calculate gross profit (assume COGS logic exists)
             var totalCOGS = CalculateCOGSForCurrentMonth();
             var grossProfit = totalRevenue - totalCOGS;
 
             // Step 6: Calculate operating profit
-            var totalOperatingExpenses = db.Salaries.Sum(e => e.cost); // Replace with more cost due to every warehouse
+            float? totalOperatingExpenses = 0;
+            if (db.Payments.Count() > 0)
+            {
+                totalOperatingExpenses  = db.Salaries.Sum(e => e.cost); // Replace with more cost due to every warehouse
+            }
             var operatingProfit = grossProfit - totalOperatingExpenses;
 
             // Step 7: Calculate profit margin
