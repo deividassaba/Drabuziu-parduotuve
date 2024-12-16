@@ -78,7 +78,7 @@ namespace WebApplication2.Controllers
                 {
                    
                     Session["UserId"] = user.Id;
-                    return Redirect("/Profile");
+                    return Redirect("/Profile/View");
 
                 }
                 else

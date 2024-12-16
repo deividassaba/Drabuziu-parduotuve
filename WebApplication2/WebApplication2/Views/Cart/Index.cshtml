@@ -72,8 +72,15 @@
 
 @if (Model != null && Model.Any())
 {
-    <form action="@Url.Action("Checkout", "Cart")" method="post">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-success">Patvirtinti užsakymą</button>
-    </form>
+    if (Session["UserId"] != null)
+    {
+        <form action="@Url.Action("Checkout", "Cart")" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Patvirtinti užsakymą</button>
+        </form>
+    }
+    else
+    {
+<a href="/Authentication/Login" class="btn btn-success">Patvirtinti užsakymą</a>
+    }
 }

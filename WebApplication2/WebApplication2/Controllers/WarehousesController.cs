@@ -24,17 +24,31 @@ namespace WebApplication2.Controllers
         // GET: Warehouses/Details/5
         public ActionResult Details(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Warehouse warehouse = db.Warehouses.Find(id);
-            if (warehouse == null)
-            {//aa
-                return HttpNotFound();
+            var products_temp = new List<Product>();
+            foreach (var prwr in warehouse.WarehouseProducts)
+            {
+                foreach (var product in db.Products.ToList())
+                {
+                    if (prwr.ProductId == product.id)
+                    {
+                        prwr.Product = product;
+                    }
+                }
             }
-            return View(warehouse);
-        }
+                
+                if (warehouse == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(warehouse);
+            }
+        
 
         // GET: Warehouses/Create
         public ActionResult Create()
@@ -123,6 +137,65 @@ namespace WebApplication2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        // GET: Warehouses/AddExistingProduct/5
+        public ActionResult AddExistingProduct(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var warehouse = db.Warehouses.Find(id);
+            if (warehouse == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.WarehouseId = id;
+            ViewBag.ProductId = new SelectList(db.Products, "id", "name"); // Populate dropdown with existing products
+            return View();
+        }
+
+        // POST: Warehouses/AddExistingProduct/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddExistingProduct(int id, int productId, int count)
+        {
+            if (count <= 0)
+            {
+                ModelState.AddModelError("count", "Count must be greater than zero.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                // Check if the product is already associated with this warehouse
+                var existingEntry = db.WarehouseProducts.FirstOrDefault(wp => wp.WarehouseId == id && wp.ProductId == productId);
+
+                if (existingEntry != null)
+                {
+                    // Update count for existing product
+                    existingEntry.Count += count;
+                }
+                else
+                {
+                    // Add new product to warehouse
+                    var warehouseProduct = new WarehouseProduct
+                    {
+                        WarehouseId = id,
+                        ProductId = productId,
+                        Count = count
+                    };
+                    db.WarehouseProducts.Add(warehouseProduct);
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id });
+            }
+
+            ViewBag.WarehouseId = id;
+            ViewBag.ProductId = new SelectList(db.Products, "id", "name", productId);
+            return View();
         }
     }
 }

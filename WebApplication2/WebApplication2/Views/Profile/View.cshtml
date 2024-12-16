@@ -1,7 +1,30 @@
 ﻿@model WebApplication2.Models.User
 
-<h2>Jūsų profilis</h2>
 
+<div class="navbar navbar-inverse">
+    <ul class="nav navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" href="/Products">Produktai</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/Categories">Kategorijos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/Payments">Pajamų analizė</a>
+        </li>
+        <li>
+            <a class="nav-link active" href="/Coupons">Kuponai</a>
+        </li>
+        <li>
+            <a class="nav-link active" href="/Orders">Užsakymas</a>
+        </li>
+        <li>
+            <a class="nav-link active" href="/Warehouses">Sandeliai</a>
+        </li>
+    </ul>
+</div>
+
+<h2>Jūsų profilis</h2>
 <div class="card mb-4">
     <div class="card-body">
         <p><strong>Vardas:</strong> @Model.FirstName</p>
@@ -28,7 +51,7 @@
                 {
                     <p><strong>Aprašymas:</strong> @coupon.Aprasymas</p>
                 }
-                
+
                 @if (coupon.CouponProducts != null && coupon.CouponProducts.Count > 0)
                 {
                     <p><strong>Galioja prekėms:</strong></p>

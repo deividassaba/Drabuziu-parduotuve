@@ -105,8 +105,14 @@ namespace WebApplication2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = db.Categories.Find(id);
+            foreach( var c in db.Categories.Where(c => c.parentId == id).ToList())
+            {
+                c.Parent = null;
+            }
+            db.SaveChanges();
             if (category == null)
             {
+
                 return HttpNotFound();
             }
             db.Categories.Remove(category);

@@ -19,7 +19,25 @@ namespace WebApplication2.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Products.ToList());
+            if (Session["UserId"] != null )
+            {
+                bool admin = false;
+                List<Product> products;
+                if (admin) {
+                    products = db.Products.ToList();
+                }
+                else
+                {
+                    int userId = Convert.ToInt32(Session["UserId"]); // Convert to int
+                    products = db.Products.Where(p => p.seller == userId ).ToList();
+                }
+                return View(products);
+               
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
         }
 
         // GET: Products/Details/5
@@ -108,6 +126,7 @@ namespace WebApplication2.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(product).State = EntityState.Modified;
+                product.seller = (int?)Session["UserId"];
                 db.SaveChanges();
                 foreach (var pc in db.ProductCategories.Where(p => p.ProductId == product.id).ToList())
                     db.ProductCategories.Remove(pc);
@@ -231,9 +250,12 @@ namespace WebApplication2.Controllers
                     {
                         if (ca == cp.CategoryId)
                         {
-                            products_temp.Add(db.Products.Find(cp.ProductId));
+                            var product=db.Products.Find(cp.ProductId);
+                            if(!products_temp.Contains(product))
+                                products_temp.Add(product);
                         }
                     }
+                    
                 }
                 products = products_temp;
             }
