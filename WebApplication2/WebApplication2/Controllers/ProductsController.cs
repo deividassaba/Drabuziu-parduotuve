@@ -53,6 +53,8 @@ namespace WebApplication2.Controllers
         public ActionResult Create([Bind(Include = "id,name,description,price,imageURL,manufacturer,mass")] Product product, 
          int[] categories)
         {
+			var categoriesInDB = db.Categories.ToList();
+            ViewBag.Categories = categoriesInDB;
             if (ModelState.IsValid)
             {
                 product.seller = (int?)Session["UserId"];

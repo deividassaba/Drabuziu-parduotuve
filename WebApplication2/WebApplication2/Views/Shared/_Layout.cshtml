@@ -32,6 +32,31 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="/Payments">Payments</a>
                     </li>
+                    <li>
+                        <a class="nav-link active" href="/Coupons">Coupons</a>
+                    </li>
+
+                                    <ul class="nav navbar-nav navbar-right">
+                    @if (Session["UserId"] == null) // If user is not logged in
+                    {
+                        <li>
+                            @Html.ActionLink("Login", "Login", "Authentication", new { area = "" }, new { @class = "btn btn-success navbar-btn" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Register", "Register", "Authentication", new { area = "" }, new { @class = "btn btn-primary navbar-btn" })
+                        </li>
+                    }
+                    else // If user is logged in
+                    {
+                        <li>
+                            @Html.ActionLink("View Profile", "Index", "Profile/View", new { area = "" }, new { @class = "btn btn-info navbar-btn" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Logout", "Logout", "Authentication", new { area = "" }, new { @class = "btn btn-danger navbar-btn" })
+                        </li>
+                    }
+                </ul>
+
                 </ul>
             </div>
         </div>
