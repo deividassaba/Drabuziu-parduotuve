@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WebApplication2.Models
 {
-    [Table("Mokestis")] // Table name explicitly defined
+    [Table("mokestis")] // Table name explicitly defined
 
     public class Payment
     {

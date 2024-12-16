@@ -64,7 +64,7 @@
         @foreach (var category in ViewBag.Categories as IEnumerable<WebApplication2.Models.Category>)
         {
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="categories[]" value="@category.id" id="category_@category.id">
+                <input class="form-check-input" type="checkbox" name="categories[]" value=@category.id id="category_@category.id">
                 <label class="form-check-label" for="category_@category.id">
                     @category.name
                 </label>
