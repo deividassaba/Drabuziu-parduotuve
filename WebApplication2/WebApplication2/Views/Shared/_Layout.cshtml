@@ -38,7 +38,12 @@
                         }
                         else // If user is logged in
                         {
-
+                            if (TempData["IsAdmin"] != null && (bool)TempData["IsAdmin"])
+                            {
+                                <li>
+                                    @Html.ActionLink("Register Admin", "Register", "Authentication", new { area = "" }, new { @class = "btn btn-warning navbar-btn" })
+                                </li>
+                            }
                             <li>
                                 @Html.ActionLink("Profilis", "Index", "Profile/View", new { area = "" }, new { @class = "" })
                             </li>

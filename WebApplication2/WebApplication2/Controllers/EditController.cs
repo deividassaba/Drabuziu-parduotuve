@@ -35,7 +35,7 @@ namespace WebApplication2.Controllers
         // POST: Edit/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(User user)
+        public ActionResult Index(Users user)
         {
             if (ModelState.IsValid)
             {

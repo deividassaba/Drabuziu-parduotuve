@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace WebApplication2.Models
 {
@@ -11,20 +12,25 @@ namespace WebApplication2.Models
             Database.SetInitializer<ApplicationDbContext>(null); // Disable automatic database creation
         }
 
-
-        // Disable the creation of a new Users table
+        // Map models to existing database tables
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .ToTable("vartotojas"); // Specify the existing table name
+            modelBuilder.Entity<Users>().ToTable("vartotojas"); // Map to 'vartotojas' table
+            modelBuilder.Entity<Administrators>().ToTable("administratorius"); // Map to 'administratorius' table
+            modelBuilder.Entity<Buyers>().ToTable("pirkejas"); // Map to 'pirkejas' table
+            modelBuilder.Entity<Sellers>().ToTable("pardavejas"); // Map to 'pardavejas' table
         }
 
-        // This should map directly to the existing 'vartotojas' table
-        public DbSet<User> Users { get; set; }
+        // DbSet properties for tables
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Administrators> Administrators { get; set; }
+        public DbSet<Buyers> Buyers { get; set; }
+        public DbSet<Sellers> Sellers { get; set; }
     }
 
-    [Table("vartotojas")] // Directly map to the existing 'vartotojas' table
-    public class User
+    // Users table mapping
+    [Table("vartotojas")]
+    public class Users
     {
         [Key]
         [Column("id")]
@@ -45,5 +51,59 @@ namespace WebApplication2.Models
         [Column("telefononumeris")]
         [StringLength(255)]
         public string PhoneNumber { get; set; }
+    }
+
+    [Table("administratorius")]
+    public class Administrators
+    {
+        [Key]
+        [Column("id")]
+        public int Id { get; set; }
+
+        [Column("arvadovas")]
+        public Boolean Chief { get; set; }
+
+        [Column("atlyginimas")]
+        public double Salary { get; set; }
+
+        [Column("kortelesnumeris")]
+        [StringLength(255)]
+        public string Card { get; set; }
+    }
+
+
+    // Buyers table mapping
+    [Table("pirkejas")]
+    public class Buyers
+    {
+        [Key]
+        [Column("id")]
+        public int Id { get; set; }
+
+        [Column("gimimodata")]
+        public DateTime Birthday { get; set; }
+
+        [Column("vieta")]
+        [StringLength(255)]
+        public string Place { get; set; }
+
+        [Column("parduotuveskreditas")]
+        public double Credit { get; set; }
+
+        [Column("lytis")]
+        public int Gender { get; set; }
+    }
+
+    // Sellers table mapping
+    [Table("pardavejas")]
+    public class Sellers
+    {
+        [Key]
+        [Column("id")]
+        public int Id { get; set; }
+
+        [Column("vieta")]
+        [StringLength(255)]
+        public string Place { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model WebApplication2.Models.User
+﻿@model WebApplication2.Models.Users
 
 
 <div class="navbar navbar-inverse">
@@ -31,6 +31,38 @@
         <p><strong>Pavardė:</strong> @Model.LastName</p>
         <p><strong>Tel. nr:</strong> @Model.PhoneNumber</p>
         <a href="@Url.Action("Index", "Edit")" class="btn btn-primary">Redaguoti profilį</a>
+        @if (ViewBag.ShowRoleSelection != null && (bool)ViewBag.ShowRoleSelection)
+        {
+            <div>
+                <h4>Select your role:</h4>
+                @using (Html.BeginForm("SelectRole", "Profile", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <label for="role">Choose a role:</label>
+                    <select id="role" name="role" class="form-control">
+                        <option value="Buyer">Buyer</option>
+                        <option value="Seller">Seller</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+            </div>
+        }
+        else
+        {
+            <p>You have already selected your role.</p>
+
+            if (ViewBag.IsBuyer)
+            {
+                <p>You are a Buyer.</p>
+            }
+            else if (ViewBag.IsSeller)
+            {
+                <p>You are a Seller.</p>
+            }
+        }
+
     </div>
 </div>
 
